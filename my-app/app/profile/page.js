@@ -1,27 +1,15 @@
-'use client';
+import { getSession } from '@auth0/nextjs-auth0';
 
-import { useUser } from '@auth0/nextjs-auth0/client';
-
-export default function proflie() {
-  const { user, error, isLoading } = useUser();
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+export default async function profile() {
+  const { user } = await getSession();
 
   return (
-    user && (
-      <>
-        <div>
-        
+      user && (
           <div>
             <img src={user.picture} alt={user.name} />
             <h2>{user.name}</h2>
             <p>{user.email}</p>
           </div>
-        </div>
-        <br></br>
-        <a href="/api/auth/logout">Logout</a>
-      </>
-    )
+      )
   );
 }
